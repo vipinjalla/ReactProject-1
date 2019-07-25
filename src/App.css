@@ -172,3 +172,15 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+.errorContainer .errorTitle {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 100px 0 0 200px;
+  width: 100%;
+  color: red;
+}
+
+.errorContainer .errorLink {
+  margin-left: 200px;
+}

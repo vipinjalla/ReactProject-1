@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {search, update} from '../BooksAPI';
+import {getAll, search, update} from '../BooksAPI';
 import Book from '../components/Book';
 import {getMappedBooksData, getUpdatedBooks} from '../utils/BooksUtils';
 
@@ -18,7 +18,9 @@ export default class SearchBooks extends Component {
 
 	handleSearch(evt) {
     	const query = evt.target.value;
-      	search(query.trim(), 100).then(data => this.setState({books: getMappedBooksData(data)}));
+      	search(query.trim(), 100).then(foundBooks => {
+          getAll().then(allBooksInMyShelf => this.setState({books: getMappedBooksData(foundBooks, allBooksInMyShelf)}))
+        });
     }
 
     renderBooks() {
