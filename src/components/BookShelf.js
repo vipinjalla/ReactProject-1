@@ -4,12 +4,13 @@ import Book from './Book';
 export default class BookShelf extends Component {
 
     renderBooks() {
-        const {books} = this.props;
+        const {books=[], changeShelf} = this.props;
         return books.map((book, index) => {
             return (
                 <li key={index}>
-                    <Book
-                        book={book}>
+                    <Book 
+                        book={book}
+						changeShelf={changeShelf}>
                     </Book>
                 </li>
             );

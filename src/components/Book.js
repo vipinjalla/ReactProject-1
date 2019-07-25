@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import {SHELF_TYPE} from '../config';
 
 export default class Book extends Component {
+  
+  	changeShelfHanlder(e) {
+		const {book={}, changeShelf} = this.props;
+		changeShelf(book, e.target.value);
+	}
 
     renderBookShelfChanger() {
         const {book={}} = this.props;
         const {shelf} = book;
-        
+      
         return (
-            <div className="book-shelf-changer">
-                <select>
+            <div id="shelfSelector" 
+          		className="book-shelf-changer" 
+  				onChange={(e) => {this.changeShelfHanlder(e)}}>
+                <select value={shelf || SHELF_TYPE.none}>
                     <option 
                         key="move" 
                         value="move" 

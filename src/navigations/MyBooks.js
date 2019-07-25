@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { getAll } from '../BooksAPI';
-import BookShelf from '../components/BookShelf';
-import {SHELF_TYPE} from '../config';
 import {Link} from 'react-router-dom';
+import { getAll, update } from '../BooksAPI';
+import {SHELF_TYPE} from '../config';
+import BookShelf from '../components/BookShelf';
+import {getMappedBooksData, getUpdatedBooks} from '../utils/BooksUtils';
 
 export default class MyBooks extends Component {
    state = {
@@ -10,20 +11,18 @@ export default class MyBooks extends Component {
     }
 
     componentDidMount() {
-        getAll().then(data => this.mapBooksData(data));
+    	this.fetchData();
     }
 
-    mapBooksData(data = []) {
-        const books = [];
-        data.forEach(bookFromAPI => {
-            const book = {};
-            book.title = bookFromAPI.title;
-            book.shelf = bookFromAPI.shelf;
-            book.authors = bookFromAPI.authors;
-            book.imageLink = bookFromAPI.imageLinks.thumbnail;
-            books.push(book);
-        });
-        this.setState({books});
+	changeShelfHandler = (bookToBeUpdated, newShelf) => {
+    	update(bookToBeUpdated, newShelf).then(() => {
+        	let {books=[]} = this.state;          
+          	this.setState({books: getUpdatedBooks(books, bookToBeUpdated, newShelf)});
+        });    	
+    }
+
+	fetchData() {
+        getAll().then(data => this.setState({books: getMappedBooksData(data)}));
     }
 
     renderCurrentlyReadingShelf() {
@@ -33,7 +32,8 @@ export default class MyBooks extends Component {
             <BookShelf 
                 key={SHELF_TYPE.currentlyReading} 
                 title="Currently Reading" 
-                books={currentlyReadingBooks}>
+                books={currentlyReadingBooks}
+				changeShelf={this.changeShelfHandler}>
             </BookShelf>
         );
     }
@@ -45,7 +45,8 @@ export default class MyBooks extends Component {
             <BookShelf 
                 key={SHELF_TYPE.wantToRead} 
                 title="Want to read" 
-                books={wantToReadBooks}>
+                books={wantToReadBooks}
+				changeShelf={this.changeShelfHandler}>
             </BookShelf>
         );
     }
@@ -57,9 +58,10 @@ export default class MyBooks extends Component {
             <BookShelf 
                 key={SHELF_TYPE.read}
                 title="Read" 
-                books={readBooks}>
+                books={readBooks}
+				changeShelf={this.changeShelfHandler}>
             </BookShelf>
-            );
+        );
     }
 
  	render() {

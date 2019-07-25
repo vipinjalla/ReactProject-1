@@ -10,6 +10,7 @@ To get started developing right away:
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
+* open application in browser at url "http://localhost:3000/"
 
 ## What You're Getting
 ```bash
@@ -30,6 +31,14 @@ To get started developing right away:
     │   └── arrow-drop-down.svg
     ├── index.css # Global styles. You probably won't need to change anything here.
     └── index.js # You should not need to modify this file. It is used for DOM rendering only.
+    └── navigations
+    │	└── MyBooks.js # A react component which is a route of url "/" and is showing list of books in our shelf
+    │	└── SearchBooks.js # A react component which is a route of url "/search" and is provising user a screen to search books
+    └── components
+    │	└── BookShelf.js # A react component representing a book shelf having list of books of same shelf type
+    │	└── Book.js # A react component representing a book. It have options to change the book shelf
+    └── utils
+    	└── BooksUtils.js # A utility file where we have 2 reusable functions.     
 ```
 
 Remember that good React design practice is to create new JS files for each component and use import/require statements to include them where they are needed.
